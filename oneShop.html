@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head title="OneShop">
+		<link rel="stylesheet" type="text/css" href="oneShop.css">
+		<link rel="stylesheet" type="text/css" href="oneShop_Media.css">
+		<link rel="stylesheet" type="text/css" href="font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="jquery.bootstrap-touchspin.min.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+		
+		
+		
+	</head>
+	<body ng-app="oneShopApp" ng-controller="employeeCntrl" ng-init="initStore()">
+		<div>
+			<div class="container-fluid headerBackground">	
+				<div class=" container borderToBeRemoved ">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-1 centeredDiv borderToBeRemoved">
+						<img class="hidden-xs logo" src="images\logo.jpg" alt="logo" />
+						<img class="hidden-sm hidden-md hidden-lg centeredDiv logo" src="images\logo_small_40x52.jpg" alt="logo" />
+						<span class="glyphicon glyphicon-home" ng-click="homeDisplayProduct()"></span>
+					</div><!--Logo container div-->
+					<div class=" col-lg-9 col-md-9 col-sm-9 col-xs-11 borderToBeRemoved">
+						<div class="searchDiv col-lg-9 col-md-9 col-sm-9 col-xs-9 borderToBeRemoved">
+							<div class="input-group">
+								
+								<input type="text" class="form-control" ng-model="searchKey" ng-keyup="searchProduct()" placeholder="What's your choice today?" />
+								<div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+							</div>
+						</div>
+						<div class="rightDiv col-ld-3 col-md-3 col-sm-3 col-xs-3 borderToBeRemoved">
+							<div class="pull-right" ng-click="showCart()">
+								<span class="glyphicon glyphicon-shopping-cart"></span><span class="cartItem">{{noOfItems}}</span>
+							</div>
+							<div class="pull-right">
+								<span class="glyphicon glyphicon-user" data-toggle="modal" data-target="#login"></span>
+								<span class="glyphicon glyphicon-ok" ng-if="loginFlag" ></span>
+							</div>
+						</div>
+					</div><!--Search and User login container div-->
+				</div><!--Header Panel Ends-->
+				<div class="modal fade" id="login" role="dialog">
+						<div class="modal-dialog">
+    
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Let us know who you are!!</h4>
+								</div>
+								<div class="modal-body">
+									<form class="form-signin" ng-submit="loginDone()">
+										<h2 class="form-signin-heading">Please sign in</h2>
+										<label for="inputEmail" class="sr-only">Email address</label>
+										<input type="email" id="inputEmail" class="form-control" placeholder="Email address" ng-model="user" required autofocus>
+										<label for="inputPassword" class="sr-only">Password</label>
+										<input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="password" required>
+										<div class="checkbox">
+										  <label>
+											<input type="checkbox" value="remember-me"> Remember me
+										  </label>
+										</div>
+										<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+									</form>
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						  
+						</div>
+				  </div>
+			</div>
+			<div class="container">
+				<div class="contentMargin" ng-if="displayProduct==1"> <!-- show only if displayProduct is 1, show cart if 0-->
+					
+						<div class="hidden-xs col-lg-3 col-md-3 col-sm-3">
+							<ul class="nav nav-pills nav-stacked">
+								<li ng-click="getProductsOfType()"><a href="#" class="h4">Show All</a></li>
+								<li ng-repeat="prod in productCatalog |unique:'productType'" ng-click="getProductsOfType(prod)"><a href="#" class="h4">{{prod.productType}}</a></li>
+							</ul>
+						</div>
+						<div class="hidden-lg hidden-md hidden-sm col-xs-12">
+							<ul class="nav nav-pills">
+								<li ng-click="getProductsOfType()"><a href="#" class="h4">Show All</a></li>
+								<li ng-repeat="prod in productCatalog |unique:'productType'" ng-click="getProductsOfType(prod)"><a href="#" class="h4" >{{prod.productType}}</a></li>
+							</ul>
+						</div>
+					<!--Vertical tabs div ends-->
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+					<div class="card-deck-wrapper">
+					<div class="card-deck">
+						<div class=" col-lg-4 col-md-4 col-sm-6 col-xs-12 containerBorder" ng-repeat="prod in filteredProduct">
+							<div class="card cardBorder" >
+							
+								<img class="card-img-top" ng-src="images\product\{{prod.productId}}.jpg" alt="Card image cap"/>
+								<div class="card-block">
+									<h4 class="card-title ">{{prod.productName}}</h4>
+									<p class="card-text">Product by {{prod.companyName}}</p>
+									<p class="card-text"><span>Price:${{prod.price}}<i class="glyphicon glyphicon-tag"></i></span> <span> Color:{{prod.color}}</span></p>
+									<div class="">
+										<span>
+										<label>Select Quantity</label>	
+										<input type="number" id="spinner-1" min="1" value="1" placeholder="1" ng-model="quantity" />
+										
+										</span>
+										
+										<a href="#" class="btn btn-primary" ng-click="addToCart(prod, quantity)">Add to Cart</a>	
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					</div>
+					</div><!--CArd layout container div-->
+					
+					
+					
+				</div>
+
+				
+				
+				<div class="contentMargin" ng-if="displayProduct==0">
+					<div class="amountDiv"><a href="#" class="btn btn-primary" ng-disabled="checkCart()" data-toggle="modal" data-target="#placeOrder" ng-click="placeOrder()">Place Order</a>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="prod in cartProduct">
+					
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<img ng-src="images\product\{{prod.p.productId}}.jpg"/>
+						</div><!--image-->
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+							<div class="card-block">
+								<h4 class="card-title ">{{prod.p.productName}}</h4>
+								<p class="card-text">Product by {{prod.p.companyName}}</p>
+								<p class="card-text"><span>Price:${{prod.p.price}}<i class="glyphicon glyphicon-tag"></i></span> <span> Color:{{prod.p.color}}</span></p>
+								<div class="">
+									<span>
+									<label>Selected Quantity: {{prod.q}}</label><br />
+									
+									<label>Add Quantity<input type="number" id="spinner-1" min="1" value="1" placeholder="1" ng-model="quant" /></label>
+									<a href="#" class="btn btn-primary" ng-click="addToCart(prod.p, quant)">Update</a>	<br />
+									
+									<label>Total Amount: {{prod.p.price*prod.q}}</label>
+									</span>
+									
+									<div class="amountDiv">
+									
+									<div ng-click="deleteCartItem($index)"><span class="glyphicon glyphicon-trash"></span></div>
+									
+									</div>
+								</div>
+							</div>
+						</div><!--content-->
+						
+				</div><!--List div-->
+				
+					<div class="modal fade" id="placeOrder" role="dialog">
+						<div class="modal-dialog">
+    
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Order Confirmation!!</h4>
+								</div>
+								<div class="modal-body">
+									<p>Order has been placed successfully</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						  
+						</div>
+				  </div>
+				  
+				  
+				</div>
+			</div><!--Body panel ends-->
+		</div> <!--Main Container Ends-->
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+		<script src="jquery.bootstrap-touchspin.min.js"></script>
+		<script src="oneShop.js"></script>
+	</body>
+</html>

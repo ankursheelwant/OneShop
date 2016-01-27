@@ -1,0 +1,9 @@
+[{"productId":1, "companyName":"Google", "productType":"Mobile", "productName":"Nexus 6p", "price":600, "color":"Black"},
+{"productId":2, "companyName":"Google", "productType":"Mobile", "productName":"Nexus 5x", "price":300, "color":"Silver"},
+		{"productId":3, "companyName":"Google", "productType":"Mobile", "productName":"Nexus 6", "price":450, "color":"Blue"},
+		{"productId":4, "companyName":"HP", "productType":"Laptop", "productName":"Pavillion dv6", "price":800, "color":"Silver"},
+		{"productId":5, "companyName":"HP", "productType":"Laptop", "productName":"Envy Entertainment", "price":700, "color":"Blue"},
+		{"productId":6, "companyName":"Motorola", "productType":"Mobile", "productName":"Moto X pure", "price":350, "color":"Gray"},
+		{"productId":7, "companyName":"Samsung", "productType":"Mobile", "productName":"Galaxy S6", "price":650, "color":"Gold"},
+		{"productId":8, "companyName":"Samsung", "productType":"Laptop", "productName":"SF511", "price":550, "color":"Metallic Gray"}
+]
